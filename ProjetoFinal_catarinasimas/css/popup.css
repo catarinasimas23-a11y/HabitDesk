@@ -1,0 +1,359 @@
+/* POPUP WINDOW */
+.popup-window {
+  position: absolute;
+  top: 120px;
+  left: 120px;
+  min-width: 400px;
+  min-height: 300px;
+  width: fit-content;
+  height: auto;
+  background: #c0c0c0;
+  border: 2px solid black;
+  display: none;
+  resize: both;
+  overflow: auto;
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 80px);
+  box-sizing: border-box;
+}
+
+/* TITLEBAR */
+.popup-titlebar {
+  background: #6B5E8D;
+  color: white;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+  user-select: none;
+  align-items: center;
+}
+
+/* TITLEBAR BUTTONS */
+.window-buttons{ display:flex; align-items:center; gap:6px; }
+.window-buttons button {
+  background-color: #c0c0c0;
+  border: 2px solid white;
+  border-bottom-color: black;
+  border-right-color: black;
+  width: 22px;
+  height: 20px;
+  margin: 0;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.popup-content {
+  padding: 10px;
+}
+
+/* Popup window content styles */
+
+.popup-window .popup-content form{ 
+	display:flex; 
+	gap:8px; 
+	flex-wrap:wrap; 
+	align-items:center 
+}
+
+.popup-window input[type="text"],
+.popup-window input[type="number"],
+.popup-window input[type="date"],
+.popup-window input[type="email"],
+.popup-window input[type="password"],
+.popup-window select{ min-width: 140px }
+
+.popup-window .expense-table table{ 
+	width:100%; 
+	border-collapse: collapse; 
+	margin-top: 8px 
+}
+.popup-window .expense-table th, .popup-window .expense-table td{ 
+	border: 1px solid #000; 
+	padding:6px; 
+	background: #fff 
+}
+
+.popup-window .total-amount{ 
+	margin-top: 10px; 
+	text-align: right 
+}
+
+.popup-window .list{ 
+	list-style: none; 
+	padding: 0; 
+	margin: 0 }
+.popup-window .list li{ 
+	padding:6px; 
+	border-bottom: 1px dashed #999; 
+	display:flex; 
+	justify-content:space-between;
+	align-items:center }
+
+.popup-footer{ 
+	margin-top: 12px; 
+	display:flex; 
+	gap:8px; 
+	justify-content:flex-end 
+}
+
+.empty-state{ 
+	color:#333; 
+	padding:12px; 
+	background: #f0f0f0; 
+	border:1px dashed #999
+ }
+
+/* To-Do specific styling */
+#todo-list li{ 
+	display:flex; 
+	align-items:center; 
+	justify-content:space-between; 
+	gap:8px; 
+	padding:6px; 
+}
+#todo-list li .left{ 
+	display:flex; 
+	gap:8px; 
+	align-items:center 
+}
+#todo-list li .meta{ 
+	font-size: 11px; 
+	color:#333 
+}
+
+#contact-card { 
+	display:flex; 
+	flex-direction:column; 
+	align-items:center; 
+	gap:6px; 
+	text-align:center; 
+	padding:8px; 
+}
+
+#contact-avatar { 
+	width:72px; 
+	height:72px; 
+	border:2px solid #c0c0c0; 
+	background:#fff; 
+}
+
+.contact-field { 
+	font-size:13px; 
+	color:#222; 
+	margin-top:4px; 
+}
+
+.contact-actions { 
+	margin-top:8px; 
+}
+
+#contact-edit-form label { 
+	display:block; 
+	margin:6px 0; 
+}
+
+#contact-edit-form input { 
+	width:100%; 
+	box-sizing:border-box; 
+	padding:4px; 
+}
+
+.priority-badge{ 
+	padding:2px 6px; 
+	border:1px solid #777; 
+	background:#eee; 
+	font-size:11px; 
+	border-radius:3px 
+}
+.priority-badge.High{ 
+	background: #ffdddd; 
+	border-color:#bb4444 
+}
+.priority-badge.Low{ 
+	background: #f0f7ff; 
+	border-color:#4499bb 
+}
+
+.todo-edit{ 
+	margin-right: 8px; 
+}
+
+.todo-completed{ 
+	text-decoration: line-through; 
+	color:#666 
+}
+
+/* Calendar / Schedule styles */
+.calendar-shell{ 
+	display:flex; 
+	flex-direction:column; 
+	gap:8px 
+}
+.cal-header{ 
+	display:flex; 
+	align-items:center; 
+	justify-content:space-between; 
+	gap:8px 
+}
+.cal-header button{ 
+	width:36px; 
+	height:28px 
+}
+.cal-month-year{ 
+	font-weight:bold; 
+	text-align:center
+ }
+.cal-weekday{ 
+	text-align:center; 
+	font-weight:600; 
+	padding:6px 4px; 
+	background:transparent 
+}
+.cal-grid{ 
+	display:grid; 
+	grid-template-columns: repeat(7, 1fr); 
+	gap:4px; 
+	background: #dcdcdc; 
+	padding:6px; 
+	border:1px solid #999 
+}
+.cal-grid .day{ 
+	min-height:72px; 
+	background:#fff;
+	padding:6px;
+	border:1px solid rgba(0,0,0,0.08); 
+	display:flex; 
+	flex-direction:column 
+}
+.cal-grid .day .date{ 
+	font-size:12px; 
+	font-weight:bold 
+}
+.cal-grid .day .events { 
+	margin-top:6px; 
+	display:flex; 
+	flex-direction:column; 
+	gap:4px; 
+}
+.cal-grid .day.today{ 
+	outline: 2px solid #2b7cff 
+}
+.cal-grid .day.has-event{ 
+	box-shadow: inset 0 0 0 2px rgba(0,0,0,0.05); 
+	background: linear-gradient(#fff,#f6f6f6) 
+}
+
+/* event chip badges inside day cells */
+.cal-grid .day .event-chip{ 
+	display:inline-block; 
+	padding:2px 6px; 
+	border-radius:8px; 
+	font-size:11px; 
+	margin:2px 0; 
+	color:#222; 
+}
+.event-chip.Appointment{ 
+	background:#d1ecff; 
+	border:1px solid #66c0ff 
+}
+.event-chip.Birthday{ 
+	background:#ffe6e6; 
+	border:1px solid #ff9a9a 
+}
+.event-chip.Reminder{ 
+	background:#f0f7d8; 
+	border:1px solid #c8e06a 
+}
+
+.cal-grid .day.selected{ 
+	box-shadow: 0 0 0 2px #2b7cff inset, 0 0 0 3px rgba(43,124,255,0.15); 
+}
+
+/* appointment list (under calendar) */
+.cal-events .appointment{ 
+	padding:8px; 
+	border:1px solid #ddd; 
+	background:#fff; 
+	margin-bottom:6px; 
+	display:flex; 
+	justify-content:space-between; 
+	align-items:center 
+}
+.cal-events .appointment .info{ 
+	display:flex; 
+	flex-direction:column 
+}
+.cal-events .appointment .meta{ 
+	font-size:12px; color:#666 
+}
+.cal-events .appointment .actions button{ 
+	margin-left:6px 
+}
+
+/* User Profile (This PC) styles */
+.profile-section{ 
+	margin-top:12px; 
+	padding:8px; 
+	background:#f0f0f0; 
+	border:1px solid #999 
+}
+.profile-section h4{ 
+	margin:0 0 8px 0; 
+	font-size:14px; 
+	color:#000080 
+}
+.profile-field{ 
+	font-size:12px; 
+	padding:3px 0; 
+	color:#222 
+}
+.profile-field strong{ 
+	display:inline-block; 
+	width:140px 
+}
+
+/* Auth form styling */
+.auth-form{ 
+	display:flex; 
+	flex-direction:column; 
+	gap:8px; 
+	max-width:380px 
+}
+.auth-form label{ 
+	display:flex; 
+	justify-content:space-between; 
+	align-items:center;
+	gap:8px 
+}
+.auth-feedback{ 
+	margin-top:6px; 
+	color:#800; 
+	min-height:18px 
+}
+
+/* User menu / avatar */
+.user-menu{ 
+	display:inline-flex; 
+	align-items:center;
+	gap:8px 
+}
+.user-avatar{ 
+	width:20px; 
+	height:20px; 
+	border-radius:3px; 
+	background:#666; 
+	display:inline-block 
+}
+
+/* small responsive tweaks */
+@media (max-width:640px){
+	.cal-grid .day{ min-height:48px }
+	.popup-window{ width: 92%; height: 70vh; left: 4%; }
+}
+

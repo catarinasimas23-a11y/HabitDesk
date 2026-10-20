@@ -1,0 +1,578 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HabitDesk</title>
+    <link rel="icon" type="image/habitdesk" href="images/HabitDesk.png">
+    <meta name="author" content="Catarina Simas">
+    <meta name="description" content="HabitDesk is a website to help tracking with your habits and help with your wellness">
+    <meta name="keywords" content="Habits, Wellness, windows 95, tracking, helpfull">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/popup.css" rel="stylesheet" >
+   </head>
+
+  <body>
+    <header class="desktop-header">
+      <h1 style="display:none">HabitDesk</h1>
+    </header>
+
+    <!--centered desktop logo-->
+    <div id="desktop-logo" aria-hidden="true">
+      <img src="images/HabitDesk.png" alt="HabitDesk">
+    </div>
+
+    <main id="desktop" aria-label="Desktop">
+      <!-- desktop icons: unique, independent elements (positions come from data-left/data-top or localStorage) -->
+      <div class="icon" id="expense-icon" data-left="20" data-top="20"> 
+        <button><img src="icons_32x32/calculator.png" alt="Expenses"></button> 
+        <span>Expenses</span>
+      </div>
+
+      <div class="icon" id="habit-icon" data-left="120" data-top="20">
+        <button><img src="icons_32x32/tools.png" alt="Habits"></button>
+        <span>Habits</span>
+      </div>
+
+      <div class="icon" id="wellness-icon" data-left="220" data-top="20">
+        <button><img src="icons_32x32/briefcase.png" alt="Wellness"></button>
+        <span>Wellness</span>
+      </div>
+
+      <div class="icon" id="calendar-icon" data-left="320" data-top="20"> 
+        <button><img src="icons_32x32/calendar.png" alt="Calendar"></button> 
+        <span>Calendar</span> 
+      </div>
+
+      <div class="icon" id="todo-icon" data-left="420" data-top="20"> 
+        <button><img src="icons_32x32/text_file.png" alt="To-Do-List"></button> 
+        <span>To-Do-List</span> 
+      </div>
+
+      <div class="icon" id="pc-icon" data-left="20" data-top="120"> 
+        <button><img src="icons_32x32/this_computer.png" alt="This Computer"></button> 
+        <span>This PC</span> 
+      </div>
+    </main>
+
+    <!-- EXPENSES -->
+    <div id="windows-container" aria-hidden="false">
+      <div id="expenses-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Expenses</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+            <form id="expense-form">
+                    <input type="text" id="expense-name" placeholder="Expense Name" required>
+                    <input type="number" id="expense-amount" placeholder="Amount" required>
+                    <select id="expense-category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="date" id="expense-date" required>
+                    <button type="submit">Add Expense</button>
+            </form>
+            <div class="expense-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Expense Name</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-list"></tbody>
+                    </table>
+                    <div class="total-amount">
+                        <strong>Total:</strong> $<span id="total-amount">0</span>
+                    </div>
+                </div>
+                <div class="filter">
+                    <label for="filter-category">Filter by Category:</label>
+                    <select id="filter-category">
+                        <option value="All">All</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+          </div> 
+      </div>
+    </div>
+
+    <!-- TODO WINDOW -->
+      <div id="todo-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>To-Do List</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="todo-form">
+            <input type="text" id="todo-text" placeholder="Add a task..." required>
+            <select id="todo-priority">
+              <option value="Normal">Normal</option>
+              <option value="High">High</option>
+              <option value="Low">Low</option>
+            </select>
+            <button type="submit">Add</button>
+          </form>
+
+          <ul id="todo-list" class="list empty-state">No tasks yet — add one.</ul>
+
+          <div class="popup-footer">
+            <button id="clear-todos">Clear All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHEDULE / CALENDAR WINDOW -->
+      <div id="calendar-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Schedule</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <div class="calendar-shell">
+            <div class="cal-header">
+              <button id="cal-prev">◀</button>
+              <div id="cal-month-year" class="cal-month-year"></div>
+              <button id="cal-next">▶</button>
+            </div>
+
+            <div id="cal-grid" class="cal-grid"></div>
+
+            <div class="cal-controls">
+              <form id="event-form">
+                <input id="event-title" type="text" placeholder="Event title" required>
+                <input id="event-date" type="date" required>
+                <input id="event-time" type="time">
+                <select id="event-type">
+                  <option value="Appointment">Appointment</option>
+                  <option value="Meeting">Meeting</option>
+                  <option value="Birthday">Birthday</option>
+                  <option value="Reminder">Reminder</option>
+                </select>
+                <label><input id="event-repeat-year" type="checkbox"> Repeat yearly</label>
+                <button type="submit">Add event</button>
+              </form>
+            </div>
+
+            <div class="cal-events">
+              <h1>Events</h1>
+              <div id="event-list" class="list empty-state">No events for this date.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HABIT WINDOW -->
+      <div id="habit-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Habits</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="habit-form">
+            <input type="text" id="habit-name" placeholder="Habit name" required>
+            <select id="habit-frequency">
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+            </select>
+            <button type="submit">Add Habit</button>
+          </form>
+
+          <ul id="habit-list" class="list empty-state">No habits yet — add one.</ul>
+
+          <div class="popup-footer">
+            <button id="clear-habits">Clear All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WELLNESS WINDOW -->
+      <div id="wellness-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Wellness</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="wellness-form">
+            <select id="wellness-mood">
+              <option value="Great">Great</option>
+              <option value="Good">Good</option>
+              <option value="Okay">Okay</option>
+              <option value="Bad">Bad</option>
+            </select>
+            <input type="number" id="wellness-sleep" min="0" max="24" placeholder="Sleephrs">
+            <input type="date" id="wellness-date">
+            <button type="submit">Log</button>
+          </form>
+
+          <div id="wellness-list" class="list empty-state">No wellness logs yet.</div>
+        </div>
+      </div>
+    </div>
+
+      <!-- SETTINGS WINDOW -->
+      <div id="settings-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Settings</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="settings-form">
+            <h4>Core / Global</h4>
+            <label>Theme:
+              <select id="settings-theme">
+                <option value="classic">Classic (Windows-95)</option>
+                <option value="dark">Dark</option> 
+              </select>
+            </label>
+            <label>Clock format:
+              <select id="settings-clock">
+                <option value="24">24-hour</option>
+                <option value="12">12-hour</option>
+              </select>
+            </label>
+
+            <h4>Desktop & UI</h4>
+            <label><input type="checkbox" id="settings-snap"> Snap icons to grid</label>
+            <label>Grid size (px): <input type="number" id="settings-grid-size" min="40" max="300" step="10"></label>
+            <label>Icon size:
+              <select id="settings-icon-size">
+                <option value="small">Small</option>
+                <option value="normal">Normal</option>
+                <option value="large">Large</option> 
+              </select>
+            </label>
+            <label><input type="checkbox" id="settings-lock-icons"> Lock desktop icons</label>
+            <label>Taskbar position:
+              <select id="settings-taskbar-pos">
+                <option value="bottom">Bottom</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
+            </label>
+
+            <h4>Notifications & Accessibility</h4>
+            <label><input type="checkbox" id="settings-notifications"> Enable desktop notifications for events</label>
+            <label><input type="checkbox" id="settings-sound"> Enable sound feedback (beeps)</label>
+            <label>Font size:
+              <select id="settings-font-size">
+                <option value="small">Small</option>
+                <option value="normal">Normal</option>
+                <option value="large">Large</option>
+              </select>
+            </label>
+
+            <div style="margin-top:12px; display:flex; gap:8px;">
+              <button type="submit">Save settings</button>
+              <button type="button" id="settings-reset">Reset defaults</button> 
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- AUTH: LOGIN / REGISTER / FORGOT / RESET -->
+      <div id="login-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Login</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="login-form" class="auth-form">
+            <label>Username: <input id="login-username" type="text" required></label>
+            <label>Password: <input id="login-password" type="password" required></label>
+            <label><input type="checkbox" id="login-remember"> Remember me</label>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button type="submit">Login</button>
+              <button type="button" id="open-register-from-login">Register</button>
+              <button type="button" id="open-forgot-from-login">Forgot?</button>
+            </div>
+            <div id="login-feedback" class="auth-feedback"></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="register-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Register</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="register-form" class="auth-form">
+            <label>Username: <input id="reg-username" type="text" required></label>
+            <label>Email: <input id="reg-email" type="email" required></label>
+            <label>Password: <input id="reg-password" type="password" required></label>
+            <label>Confirm: <input id="reg-password-confirm" type="password" required></label>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button type="submit">Create account</button>
+              <button type="button" id="reg-cancel">Cancel</button>
+            </div>
+            <div id="register-feedback" class="auth-feedback"></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="forgot-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Forgot Password</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="forgot-form" class="auth-form">
+            <label>Enter your account email: <input id="forgot-email" type="email" required></label>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button type="submit">Send reset token</button>
+              <button type="button" id="forgot-cancel">Cancel</button>
+            </div>
+            <div id="forgot-feedback" class="auth-feedback"></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="reset-window" class="popup-window">
+        <div class="popup-titlebar">
+          <span>Reset Password</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="reset-form" class="auth-form">
+            <label>Reset token: <input id="reset-token" type="text" required></label>
+            <label>New password: <input id="reset-password" type="password" required></label>
+            <label>Confirm: <input id="reset-password-confirm" type="password" required></label>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button type="submit">Reset password</button>
+              <button type="button" id="reset-cancel">Cancel</button>
+            </div>
+            <div id="reset-feedback" class="auth-feedback"></div>
+          </form>
+        </div>
+      </div>
+
+    <!--Contacts - Developer Information-->
+      <div id="contacts-window" class="popup-window" style="display:none;">
+        <div class="popup-titlebar">
+          <span>Developer Information</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <div id="contact-card">
+            <img id="contact-avatar" src="images/imagem-perfil.jpg" alt="Catarina Simas" style="width:96px; height:120px; border:2px solid #c0c0c0; background:#fff; border-radius:8px;">
+            <h2 style="margin:12px 0 4px 0; color:#000080;">Catarina Simas</h2>
+            <p style="margin:0 0 16px 0; color:#555; font-style:italic;">Web Designer</p>
+            
+            <div class="contact-field"><strong>📧 Email:</strong> <a href="mailto:catarinasimas23@gmail.com">catarinasimas23@gmail.com</a></div>
+            <div class="contact-field"><strong>🌐 Portfolio:</strong> <a href="#" target="_blank">catarinasimas.com</a></div>
+            <div class="contact-field"><strong>💼 LinkedIn:</strong> <a href="#" target="_blank">linkedin.com/in/catarinasimas</a></div>
+            <div class="contact-field"><strong>💻 GitHub:</strong> <a href="https://github.com/catarinasimas23-a11y" target="_blank">https://github.com/catarinasimas23-a11y</a></div>
+            
+            <div style="margin-top:20px; padding:12px; background:#f0f0f0; border:1px solid #999; border-radius:4px;">
+              <h4 style="margin:0 0 8px 0; color:#6B5E8D;">About Me</h4>
+              <p style="margin:0; font-size:13px; line-height:1.5;">
+                Passionate web designer that loves creating intuitive web applications. 
+                HabitDesk showcases my skills in JavaScript, HTML5, CSS3, and UI/UX design 
+                with a nostalgic Windows 95 aesthetic.
+              </p>
+            </div>
+            
+            <div style="margin-top:16px;">
+              <h4 style="margin:0 0 8px 0; color:#6B5E8D;">Skills</h4>
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                <span style="background:#6B5E8D; color:white; padding:4px 8px; border-radius:3px; font-size:11px;">JavaScript</span>
+                <span style="background:#6B5E8D; color:white; padding:4px 8px; border-radius:3px; font-size:11px;">HTML</span>
+                <span style="background:#6B5E8D; color:white; padding:4px 8px; border-radius:3px; font-size:11px;">CSS</span>
+                <span style="background:#6B5E8D; color:white; padding:4px 8px; border-radius:3px; font-size:11px;">UI/UX Design</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--This PC / User Profile-->
+    <div id="pc-window" class="popup-window" style="display:none;">
+        <div class="popup-titlebar">
+          <span>This PC - User Profile</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <div id="user-profile-display">
+            <div style="display:flex; gap:16px; align-items:center; margin-bottom:16px;">
+              <img id="profile-avatar" src="images/avatar.png" alt="User" style="width:64px; height:64px; border:2px solid #c0c0c0; background:#fff;" />
+              <div>
+                <h3 id="profile-username" style="margin:0;">Guest User</h3>
+                <p id="profile-email" style="margin:4px 0; font-size:12px; color:#555;">Not logged in</p>
+              </div>
+            </div>
+            
+            <div class="profile-section">
+              <h4>Account Information</h4>
+              <div class="profile-field"><strong>Status:</strong> <span id="profile-status">Guest</span></div>
+              <div class="profile-field"><strong>Member Since:</strong> <span id="profile-member-since">--</span></div>
+            </div>
+
+            <div class="profile-section">
+              <h4>Contact Information</h4>
+              <div class="profile-field"><strong>Name:</strong> <span id="profile-contact-name">Not set</span></div>
+              <div class="profile-field"><strong>Phone:</strong> <span id="profile-contact-phone">--</span></div>
+              <div class="profile-field"><strong>Address:</strong> <span id="profile-contact-address">--</span></div>
+            </div>
+
+            <div class="profile-section">
+              <h4>Activity Statistics</h4>
+              <div class="profile-field"><strong>Total Habits:</strong> <span id="profile-stat-habits">0</span></div>
+              <div class="profile-field"><strong>Total Expenses:</strong> <span id="profile-stat-expenses">0</span></div>
+              <div class="profile-field"><strong>Wellness Logs:</strong> <span id="profile-stat-wellness">0</span></div>
+              <div class="profile-field"><strong>To-Do Items:</strong> <span id="profile-stat-todos">0</span></div>
+              <div class="profile-field"><strong>Calendar Events:</strong> <span id="profile-stat-events">0</span></div>
+            </div>
+
+            <div class="profile-section">
+              <h4>Storage Information</h4>
+              <div class="profile-field"><strong>Local Storage Used:</strong> <span id="profile-storage">Calculating...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--About Page-->
+    <div id="about-window" class="popup-window" style="display:none;">
+        <div class="popup-titlebar">
+          <span>About HabitDesk</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <h2>About HabitDesk</h2>
+          <p>HabitDesk is a web application designed to help you track your habits, manage your schedule, and improve your overall wellness. Inspired by the classic Windows 95 interface, HabitDesk combines nostalgia with modern functionality to provide a unique user experience.</p>
+          <h3>Features:</h3>
+          <ul>
+            <li>Habit Tracking: Create and monitor your daily, weekly, or monthly habits.</li>
+            <li>Expense Management: Keep track of your expenses with an easy-to-use interface.</li>
+            <li>Calendar & Scheduling: Organize your events and appointments efficiently.</li>
+            <li>Wellness Logging: Record your mood and sleep patterns to maintain a healthy lifestyle.</li>
+            <li>Customizable Desktop: Personalize your desktop with various settings and themes.</li>
+          </ul>
+          <h3>Developer:</h3>
+          <p>Catarina Simas</p>
+          <p>Feedback is always welcome, email me at <a href="#" id="email-link">catarinasimas23@gmail.com</a></p>
+        </div>
+      </div>
+
+    <!--Email Form-->
+    <div id="email-window" class="popup-window" style="display:none;">
+        <div class="popup-titlebar">
+          <span>Send Email</span>
+          <div class="window-buttons">
+            <button class="min-btn">_</button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="popup-content">
+          <form id="email-form">
+            <label>To: <input type="text" value="catarinasimas23@gmail.com" readonly style="background:#f0f0f0;"></label>
+            <label>Subject: <input type="text" id="email-subject" required></label>
+            <label>Message:
+              <textarea id="email-message" rows="8" style="width:100%; resize:vertical;" required></textarea>
+            </label>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button type="submit">Send</button>
+              <button type="button" id="email-cancel">Cancel</button>
+            </div>
+            <div id="email-feedback" style="margin-top:8px; color:#080; min-height:18px;"></div>
+          </form>
+        </div>
+      </div>
+
+  <footer>
+    <!--Taskbar--> 
+      <div class="taskbar"> 
+        <button id="start-button">Start</button> 
+        <div id="start-menu" class="start-menu" aria-hidden="true">
+          <div class="group">
+            <strong>Apps</strong>
+            <button data-open="habit-window" data-title="Habits">Habits</button>
+            <button data-open="calendar-window" data-title="Schedule">Calendar</button>
+            <button data-open="wellness-window" data-title="Wellness">Wellness</button>
+            <button data-open="expenses-window" data-title="Expenses">Expenses</button>
+            <button data-open="todo-window" data-title="To-Do">To-Do</button>
+          </div>
+          <div class="group">
+            <strong>System</strong>
+            <button data-open="settings-window" data-title="Settings">Settings</button>
+            <button data-open="contacts-window" data-title="Contacts">Contacts</button>
+            <button data-open="about-window" data-title="About HabitDesk">About</button>
+          </div>
+        </div>
+        <div class="taskbar-left">
+          <div id="taskbar-windows"></div>
+        </div>
+
+        <div class="taskbar-right">
+          <button id="login-btn">Login</button>
+          <button id="register-btn">Register</button>
+          <div id="clock" class="clock">12:00</div>
+        </div>
+      </div>
+  </footer>
+    <script defer src="js/script.js"></script>
+    <script>
+      // Auto-open About window on page load
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const aboutWindow = document.getElementById('about-window');
+          if (aboutWindow && typeof openWindow === 'function') {
+            openWindow('about-window', 'About HabitDesk');
+          }
+        }, 500);
+      });
+    </script>
+  </body>
+</html>

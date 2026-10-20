@@ -1,0 +1,224 @@
+@font-face {
+    font-family: 'Windows 95' ;
+    src: url(../w95font.ttf);
+}
+
+body{
+  background-color: #8e7cc3;
+  font-family: "Windows 95", "consolas", sans-serif;
+}
+
+/* Theme modifiers applied via body.theme-* classes */
+
+body.theme-dark{ background-color: #222; color: #eee }
+body.theme-dark .popup-window{ background: #333; color: #eee }
+body.theme-dark .popup-titlebar{ background: #111; color: #fff }
+
+/* Desktop icons */
+.icon{
+  position: absolute;
+  width: 96px;
+  text-align: center;
+  color: black;
+  font-size: 12px;
+  z-index: 5;
+  user-select: none;
+  cursor: move;
+}
+
+.icon button{
+  width: 56px;
+  height: 56px;
+  /* remove the white framed background so icons sit clean on desktop */
+  border: 2px solid transparent;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.icon img{ width: 32px; height: 32px }
+.icon span{ 
+  display:block; 
+  margin-top:4px;
+  color: #fcfcfc; 
+}
+/* Make icons draggable and prevent accidental text selection while dragging */
+.icon{ user-select: none; cursor: move }
+
+/* Icon size presets */
+.icon.small{ width: 72px }
+.icon.small img{ width: 24px; height:24px }
+.icon.small button{ width:44px; height:44px }
+
+.icon.large{ width: 126px }
+.icon.large img{ width:48px; height:48px }
+.icon.large button{ width:72px; height:72px }
+
+/* TASKBAR */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  box-sizing: border-box;
+}
+
+/* Taskbar positions applied via body class */
+body.taskbar-left .taskbar{ 
+  top:0; 
+  bottom:auto; 
+  left:0; 
+  height:100%; 
+  width:56px; 
+  flex-direction:column; 
+  align-items:flex-start; 
+  padding:8px 
+}
+body.taskbar-left .taskbar-right{ 
+  display:none 
+}
+body.taskbar-left .taskbar-left{ 
+  order:2 
+}
+
+body.taskbar-right .taskbar{ 
+  top:0; 
+  bottom:auto; 
+  right:0; 
+  left:auto; 
+  height:100%; 
+  width:56px; 
+  flex-direction:column; 
+  align-items:flex-end; 
+  padding:8px 
+}
+body.taskbar-right .taskbar-left{ 
+  display:none 
+}
+
+/* Font size accessibility */
+body.font-small{ 
+  font-size:12px 
+}
+body.font-large{ 
+  font-size:18px 
+}
+
+.taskbar button {
+  margin-right: 5px;
+}
+
+/* taskbar zones */
+.taskbar-left{ 
+  display:flex; 
+  align-items:center; 
+  gap:8px 
+}
+#taskbar-windows{ 
+  display:flex; 
+  gap:4px; 
+  margin-left:8px 
+}
+
+.taskbar-right{ 
+  display:flex; 
+  align-items:center; 
+  gap:8px; }
+
+#taskbar-windows button { 
+  margin-left: 4px 
+}
+
+/* styling for clock */
+.clock{ 
+  padding: 4px 8px; 
+  border-left: 2px solid #fff; 
+  border-bottom: 2px solid black; 
+  background: #e0e0e0; 
+}
+
+/* Taskbar button visual states */
+.taskbar button.task-btn{ 
+  display:inline-flex; 
+  align-items:center; 
+  gap:6px; 
+  padding:4px 8px; 
+  border:2px solid #fff; 
+  border-bottom-color:black; 
+  border-right-color:black; 
+  background:#c0c0c0 }
+
+.taskbar button.task-btn.active{ 
+  background: linear-gradient(#fff,#ddd); 
+  border-color:#666; 
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15) 
+}
+
+.taskbar button.task-btn img{ 
+  width:16px; 
+  height:16px; 
+  display:block }
+.taskbar .task-btn .label{ 
+  font-size:11px; 
+  white-space:nowrap 
+}
+
+/* START MENU (simple) */
+.start-menu{
+  position: absolute;
+  bottom: 40px;
+  left: 8px;
+  display: none;
+  width: 260px;
+  background: #c0c0c0;
+  border: 2px solid black;
+}
+
+.start-menu .group{ 
+  padding: 8px; 
+  border-bottom: 1px solid #999 
+}
+.start-menu button{ 
+  display:block; 
+  width:100%; 
+  text-align:left; 
+  padding:6px; 
+  border: none; 
+  background: transparent; 
+  cursor:pointer 
+}
+
+/* Small helpers for inputs */
+input[type="text"], input[type="number"], input[type="date"], select, textarea{
+  border: 2px solid #fff;
+  border-bottom-color: black;
+  border-right-color: black;
+  padding: 4px;
+  background: #e0e0e0;
+}
+
+button[type="submit"]{ cursor: pointer }
+
+/* Decorative centered desktop logo (non-interactive) */
+#desktop-logo{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  z-index:0;
+}
+#desktop-logo img{
+  max-width:40%;
+  max-height:40%;
+  opacity:0.50;
+}
